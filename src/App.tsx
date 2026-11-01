@@ -280,7 +280,7 @@ export default function App() {
 
   return <div className="app" id="topo">
     <header className="header">
-      <a className="brand" href="#topo"><img src="/edshoop-logo.png" alt="Edshoop — Ofertas e Recomendações"/></a>
+      <a className="brand" href="#topo"><img src={`${import.meta.env.BASE_URL}edshop-logo.png`} alt="Edshoop — Ofertas e Recomendações"/></a>
       {settings.show_search&&<div className="search"><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Buscar produtos, marcas e ofertas..."/><button aria-label="Pesquisar"><Search size={21}/></button></div>}
       <div className="header-links"><a href="#ofertas">Ofertas</a><a href="#categorias">Categorias</a><a href={`mailto:${settings.contact_email}`}>Contato</a></div>
     </header>
