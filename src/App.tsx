@@ -122,10 +122,18 @@ export default function App() {
     if(error){setLoginError('Não foi possível entrar. Confira o e-mail e a senha.');return;}
     const {data:admin}=await supabase.from('edshoop_admins').select('user_id').eq('user_id',data.user.id).maybeSingle();
     if(!admin){await supabase.auth.signOut();setLoginError('Este utilizador não está autorizado como administrador.');return;}
-    setSession(data.session);setPassword('');setAdminOpen(true);setTab('dashboard');
+    
+setSession(data.session);setPassword('');setAdminOpen(true);setTab('dashboard');
   }
-  
+
+async function signOut() {
+  await supabase?.auth.signOut();
+  setSession(null);
+  setAdminOpen(false);
+}
+
 async function resetPassword() {
+
   if (!supabase) {
     setLoginError('Conecte o Supabase primeiro.');
     return;
