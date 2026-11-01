@@ -35,3 +35,16 @@
 }
 
 .category-nav button:first-child{display:block}.previous-price{color:#8793a5;text-decoration:line-through;margin:0 3px 7px;font-size:12px}
+/* Ajuste de espaçamento dos cartões */
+.product-info {
+  padding-top: 12px;
+}
+
+.product-category {
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.product-info h3 {
+  margin-top: 8px;
+}
