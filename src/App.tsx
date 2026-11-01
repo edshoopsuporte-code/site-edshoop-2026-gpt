@@ -124,12 +124,27 @@ export default function App() {
     if(!admin){await supabase.auth.signOut();setLoginError('Este utilizador não está autorizado como administrador.');return;}
     setSession(data.session);setPassword('');setAdminOpen(true);setTab('dashboard');
   }
-  async function signOut(){await supabase?.auth.signOut();setSession(null);setAdminOpen(false);}
-  async function resetPassword(){
-    if(!supabase){setLoginError('Conecte o Supabase primeiro.');return;}
-    const {error}=await supabase.auth.resetPasswordForEmail(ADMIN_EMAIL,{redirectTo:window.location.origin});
-    setLoginError(error?'Não foi possível enviar o e-mail de recuperação.':'Se o endereço estiver cadastrado, enviaremos as instruções de recuperação.');
+  
+async function resetPassword() {
+  if (!supabase) {
+    setLoginError('Conecte o Supabase primeiro.');
+    return;
   }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    ADMIN_EMAIL,
+    {
+      redirectTo: 'https://edshoopsuporte-code.github.io/site-edshoop-2026-gpt/'
+    }
+  );
+
+  setLoginError(
+    error
+      ? `Erro ao enviar recuperação: ${error.message}`
+      : 'Pedido enviado. Verifique o seu e-mail.'
+  );
+}
+
   async function changePassword(e:React.FormEvent<HTMLFormElement>){
     e.preventDefault();const fd=new FormData(e.currentTarget);
     const current=String(fd.get('current')||'');const next=String(fd.get('next')||'');const confirm=String(fd.get('confirm')||'');
