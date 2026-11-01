@@ -165,17 +165,54 @@ async function resetPassword() {
   );
 }
 
-  async function changePassword(e:React.FormEvent<HTMLFormElement>){
-    e.preventDefault();const fd=new FormData(e.currentTarget);
-    const current=String(fd.get('current')||'');const next=String(fd.get('next')||'');const confirm=String(fd.get('confirm')||'');
-    if(next.length<8||next!==confirm){notify('A nova senha precisa ter pelo menos 8 caracteres e coincidir na confirmação.');return;}
-    if(!supabase){notify('Conecte o Supabase para alterar a senha real.');return;}
-    const {error:check}=await supabase.auth.signInWithPassword({email:ADMIN_EMAIL,password:current});
-    if(check){notify('A senha atual não confere.');return;}
-    const {error}=await supabase.auth.updateUser({password:next});
-    notify(error?'Não foi possível alterar a senha.':'Senha atualizada com sucesso.');
-    e.currentTarget.reset();
+  
+async function changePassword(e:React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const fd = new FormData(form);
+
+  const current = String(fd.get('current') || '');
+  const next = String(fd.get('next') || '');
+  const confirm = String(fd.get('confirm') || '');
+
+  if (next.length < 8 || next !== confirm) {
+    notify('A nova senha precisa ter pelo menos 8 caracteres e coincidir na confirmação.');
+    return;
   }
+
+  if (!supabase) {
+    notify('Conecte o Supabase para alterar a senha.');
+    return;
+  }
+
+  if (!recoveryMode) {
+    const { error: check } = await supabase.auth.signInWithPassword({
+      email: ADMIN_EMAIL,
+      password: current
+    });
+
+    if (check) {
+      notify('A senha atual não confere.');
+      return;
+    }
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: next
+  });
+
+  if (error) {
+    notify('Não foi possível alterar a senha: ' + error.message);
+    return;
+  }
+
+  setRecoveryMode(false);
+  form.reset();
+  setTab('dashboard');
+  notify('Nova senha definida com sucesso!');
+}
+
 
   async function refreshProducts(){
     if(!supabase)return;
