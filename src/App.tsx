@@ -68,11 +68,22 @@ export default function App() {
     }
   });
 
+  
   const { data: { subscription } } =
     client.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT') setSession(null);
+      if (event === 'SIGNED_OUT') {
+        setSession(null);
+      }
+
       if (event === 'TOKEN_REFRESHED' && session) {
         setSession(session);
+      }
+
+      if (event === 'PASSWORD_RECOVERY' && session) {
+        setSession(session);
+        setAdminOpen(true);
+        setTab('password');
+        setRecoveryMode(true);
       }
     });
 
