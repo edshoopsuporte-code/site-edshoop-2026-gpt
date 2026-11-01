@@ -31,4 +31,4 @@ export const demoProducts: Product[] = [
 ['Mini processador de alimentos','Ajuda no preparo de receitas.','Casa e Utilidades','processador','Shopee'],
 ['Tapete automotivo','Acessório para proteção do interior do carro.','Automotivo','tapete-carro','Mercado Livre'],
 ['Tênis casual','Opção versátil para compor seu visual.','Moda e Acessórios','tenis','Mercado Livre']
-].map((p,i)=>({id:`demo-${i+1}`,name:p[0],description:p[1],category:p[2],image_url:`/products/${p[3]}.svg`,price:null,show_price:false,platform:p[4],affiliate_url:'',published:true,featured:i<10}));
+].map((p,i)=>({id:`demo-${i+1}`,name:p[0],description:p[1],category:p[2],image_url: `${import.meta.env.BASE_URL}products/${p[3]}.svg`,price:null,show_price:false,platform:p[4],affiliate_url:'',published:true,featured:i<10}));
