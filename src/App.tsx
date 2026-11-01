@@ -290,7 +290,7 @@ export default function App() {
       <section id="ofertas" className="products-section">
         <div className="section-heading"><h2>{category==='Todas'?'Produtos em Destaque':category}</h2><span className="result-count">{visible.length} produtos</span></div>
         <div className="product-grid">{shown.map(p=><article className="product-card" key={p.id}>
-          <div className="product-image"><img src={p.image_url} alt={p.name} onError={e=>{e.currentTarget.src='/products/default.svg';}}/></div>
+          <div className="product-image"><img src={p.image_url} alt={p.name} onError={e=>{e.currentTarget.src='`${import.meta.env.BASE_URL}products/default.svg`';}}/></div>
           <div className="product-info"><span className="product-category">{p.category}</span><h3>{p.name}</h3>
             {settings.show_prices_globally&&p.show_price&&p.price!==null&&<strong className="price">R$ {Number(p.price).toFixed(2).replace('.',',')}</strong>}{settings.show_prices_globally&&settings.show_previous_price&&p.show_price&&(p as any).previous_price&&<small className="previous-price">R$ {Number((p as any).previous_price).toFixed(2).replace('.',',')}</small>}
             <button className="offer-button" onClick={()=>trackClick(p)}>Ver Oferta <ExternalLink size={15}/></button>
