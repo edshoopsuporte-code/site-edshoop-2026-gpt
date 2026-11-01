@@ -45,21 +45,41 @@ export default function App() {
   const [clickCounts,setClickCounts]=useState<Record<string,number>>({});
   const [totalClicks,setTotalClicks]=useState(0);
 
-  useEffect(()=>{
-    if(!supabase)return;
-    let alive=true;
-    supabase.auth.getSession().then(async({data})=>{
-      if(!alive||!data.session)return;
-      const {data:admin}=await supabase.from('edshoop_admins').select('user_id').eq('user_id',data.session.user.id).maybeSingle();
-      if(alive&&admin)setSession(data.session);
-      else if(alive)await supabase.auth.signOut();
+  useEffect(() => {
+  const client = supabase;
+  if (!client) return;
+
+  let alive = true;
+
+  client.auth.getSession().then(async ({ data }) => {
+    if (!alive || !data.session) return;
+
+    const { data: admin } = await client
+      .from('edshoop_admins')
+      .select('user_id')
+      .eq('user_id', data.session.user.id)
+      .maybeSingle();
+
+    if (alive && admin) {
+      setSession(data.session);
+    } else if (alive) {
+      await client.auth.signOut();
+    }
+  });
+
+  const { data: { subscription } } =
+    client.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') setSession(null);
+      if (event === 'TOKEN_REFRESHED' && session) {
+        setSession(session);
+      }
     });
-    const {data:{subscription}}=supabase.auth.onAuthStateChange((event,s)=>{
-      if(event==='SIGNED_OUT')setSession(null);
-      if(event==='TOKEN_REFRESHED'&&s)setSession(s);
-    });
-    return ()=>{alive=false;subscription.unsubscribe();};
-  },[]);
+
+  return () => {
+    alive = false;
+    subscription.unsubscribe();
+  };
+}, []);
 
   useEffect(()=>{
     if(!supabase)return;
