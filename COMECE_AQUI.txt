@@ -1,0 +1,24 @@
+EDSHOOP — PRIMEIROS PASSOS
+
+1. Para ver a demonstração visual e testar o painel local:
+   abra ABRIR_DEMO.html com dois cliques.
+   A demonstração guarda alterações apenas neste navegador (localStorage).
+   Não utilize uma senha real nela.
+
+2. O projeto de aplicação está em src/ (React + Vite).
+   O backend e as permissões estão em supabase/schema.sql.
+   O backup automático semanal está em supabase/backup_schedule.sql.
+
+3. Antes de publicar:
+   - criar o projeto Supabase;
+   - criar o utilizador proprietário edshoopsuporte@gmail.com;
+   - executar schema.sql;
+   - associar o UUID do proprietário em edshoop_admins;
+   - executar backup_schedule.sql;
+   - configurar .env com URL e chave pública do Supabase;
+   - instalar dependências e executar o build.
+
+IMPORTANTE:
+A prévia ABRIR_DEMO.html é uma demonstração local. Login real, sincronização entre dispositivos,
+uploads persistentes e permissões só funcionam depois da configuração Supabase e da publicação.
+Os 30 produtos são ilustrativos e não têm links afiliados reais.
