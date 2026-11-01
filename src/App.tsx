@@ -390,7 +390,19 @@ async function changePassword(e:React.FormEvent<HTMLFormElement>) {
           {tab==='platforms'&&<div className="admin-section"><div className="inline-form"><input value={newPlatform} onChange={e=>setNewPlatform(e.target.value)} placeholder="Ex.: Amazon, Magalu, AliExpress"/><button className="primary" onClick={addPlatform}><Plus size={15}/> Nova Plataforma</button></div><p className="muted">Mercado Livre e Shopee são as plataformas iniciais. Adicione outras quando concluir seus cadastros.</p>{platforms.map(p=><div className="category-row" key={p.id}><span><b>{p.name}</b> — {p.active?'Ativa':'Inativa'}</span><div><button className="icon-button" onClick={()=>togglePlatform(p)}>{p.active?<Eye size={15}/>:<EyeOff size={15}/>}</button><button className="icon-button danger" onClick={()=>deletePlatform(p)}><Trash2 size={15}/></button></div></div>)}</div>}
           {tab==='settings'&&<form className="admin-section" onSubmit={saveSettings}><label>E-mail de contato<input value={settings.contact_email} onChange={e=>setSettings({...settings,contact_email:e.target.value})}/></label><label>Título do banner<input value={settings.banner_title} onChange={e=>setSettings({...settings,banner_title:e.target.value})}/></label><label>Texto do banner<input value={settings.banner_text} onChange={e=>setSettings({...settings,banner_text:e.target.value})}/></label><label className="check"><input type="checkbox" checked={settings.show_prices_globally} onChange={e=>setSettings({...settings,show_prices_globally:e.target.checked})}/> Exibir preços globalmente</label><label className="check"><input type="checkbox" checked={settings.show_previous_price} onChange={e=>setSettings({...settings,show_previous_price:e.target.checked})}/> Exibir preço anterior</label><label className="check"><input type="checkbox" checked={settings.show_search} onChange={e=>setSettings({...settings,show_search:e.target.checked})}/> Exibir pesquisa</label><label className="check"><input type="checkbox" checked={settings.show_featured} onChange={e=>setSettings({...settings,show_featured:e.target.checked})}/> Mostrar destaques</label><label>Quantidade inicial de produtos<input type="number" min="5" max="100" value={settings.products_per_page} onChange={e=>setSettings({...settings,products_per_page:Number(e.target.value)})}/></label><button className="primary"><Save size={16}/> Guardar alterações</button></form>}
           {tab==='backup'&&<div className="admin-section"><h3>Backup e restauração</h3><p>Crie uma cópia dos dados do catálogo e configurações. As imagens ficam no armazenamento do Supabase.</p><button className="primary" onClick={manualBackup}><Download size={16}/> Criar backup manual</button><label>Restaurar arquivo JSON<input type="file" accept="application/json" onChange={e=>{const f=e.target.files?.[0];if(f)restoreBackup(f);}}/></label><p className="muted">A rotina automática semanal deve ser ativada com o script `supabase/backup_schedule.sql`. As imagens ficam no bucket de armazenamento.</p></div>}
-          {tab==='password'&&<form className="admin-section" onSubmit={changePassword}><label>Senha atual<input name="current" type="password" required/></label><label>Nova senha<input name="next" type="password" minLength={8} required/></label><label>Confirmar nova senha<input name="confirm" type="password" minLength={8} required/></label><button className="primary"><Save size={16}/> Atualizar senha</button></form>}
+          {tab==='password'&&<form className="admin-section" onSubmit={changePassword}>
+  <h3>{recoveryMode?'Definir nova senha':'Alterar senha'}</h3>
+
+  {!recoveryMode&&<label>Senha atual<input name="current" type="password" required/></label>}
+
+  <label>Nova senha<input name="next" type="password" minLength={8} required/></label>
+
+  <label>Confirmar nova senha<input name="confirm" type="password" minLength={8} required/></label>
+
+  <button className="primary">
+    <Save size={16}/> {recoveryMode?'Definir nova senha':'Atualizar senha'}
+  </button>
+</form>}
         </div>}
       </div>
     </div>}
