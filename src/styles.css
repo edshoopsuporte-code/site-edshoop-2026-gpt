@@ -48,3 +48,13 @@
 .product-info h3 {
   margin-top: 8px;
 }
+/* Separar melhor a imagem da etiqueta */
+.product-image {
+  margin-bottom: 14px;
+}
+
+@media (max-width: 680px) {
+  .product-image {
+    margin-bottom: 8px;
+  }
+}
