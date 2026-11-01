@@ -38,6 +38,7 @@ export default function App() {
   const [tab,setTab]=useState<Tab>('dashboard');
   const [email,setEmail]=useState(ADMIN_EMAIL); const [password,setPassword]=useState('');
   const [loginError,setLoginError]=useState(''); const [notice,setNotice]=useState('');
+  const [recoveryMode,setRecoveryMode]=useState(false);
   const [editing,setEditing]=useState<Product|null>(null);
   const [newCategory,setNewCategory]=useState('');
   const [newPlatform,setNewPlatform]=useState('');
